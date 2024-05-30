@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clock App</title>
+<style>
+  body {
+    font-family: 'Arial', sans-serif;
+    display: block;
+    text-align: center;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #eaeaea;
+    transition: background-color 0.5s, color 0.5s, box-shadow 0.5s;
+  }
+  .settings {
+    position: fixed;
+    bottom: 0;
+    display: none;
+    width: 100%;
+    height: 70vh;
+    justify-content: flex-start;
+    flex-direction: column;
+    background: #6f5799e8;
+    border-radius: 25px 25px 0 0;
+    align-items: center;
+    color: white;
+    z-index: 11;
+    font-size: 150%;
+    animation: flyIn 0.5s;
+  }
+   .container {
+    margin-top: 16vh;
+    transition: background-color 0.5s, color 0.5s, box-shadow 0.5s;
+  }
+  
+.analogclock {
+    position: relative;
+    width: 50vh;
+    height: 50vh;
+    border: 2vh solid #333;
+    border-radius: 50%;
+    box-shadow: 0 0 5vh rgba(0,0,0,0.1);
+    margin: 40px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: white;
+    transition: all 0.4s, background-color 0.5s, color 0.5s, box-shadow 0.5s;
+
+}
+
+.hand {
+  position: absolute;
+  bottom: 50%;
+  background: black;
+  border-radius: 100px;
+  transform-origin: bottom;
+  background-color 0.5s, color 0.5s, box-shadow 0.5s
+}
+
+.hand.transition {
+  transition: all 0.4s, transform 0.3s cubic-bezier(0.4, 2.3, 0.3, 1);
+}
+
+.hour-hand {
+  width: 1.75vh;
+  height: 12.5vh;
+  background: #333;
+}
+
+.minute-hand {
+  width: 1.25vh;
+  height: 18.75vh;
+  background: #666;
+}
+
+.second-hand {
+  width: 0.75vh;
+  height: 23.75vh;
+  background: red;
+  z-index: 5;
+}
+
+.center-circle {
+  position: absolute;
+  width: 3vh;
+  height: 3vh;
+  background: #333;
+  border-radius: 50%;
+  z-index: 6;
+  transition: all 0.4s, background-color 0.5s, color 0.5s, box-shadow 0.5s;
+}
+
+  #clock {
+    font-size: 48px;
+    margin-bottom: 20px;
+    margin-top: -10px;
+    transition: background-color 0.5s, color 0.5s, box-shadow 0.5s;
+  }
+
+  @keyframes flyIn {
+    0% {
+      height: 0;
+      opacity: 0;
+    }
+  }
+  
+  @keyframes flyOut {
+    0% {
+      height: 70%;
+      opacity: 1;
+    }
+    100% {
+      height: 0;
+      opacity: 0;
+    }
+  } 
+  
+  #topbar {
+    display: flex;
+    justify-content: end;
+    background: lightgrey;
+    padding: 5px;
+    border-radius: 0 0 34px 34px;
+    box-shadow: 0px 1px 5px 0 black;
+    transition: background-color 0.5s, color 0.5s, box-shadow 0.5s;
+  }
+  
+  #settingsbtn {
+    background: none;
+    border: none;
+    transition: background-color 0.5s, color 0.5s, box-shadow 0.5s;
+    
+    
+  }
+  
+  #settingsclose {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    background-color: black;
+    opacity: 0.25;
+    z-index: 10;
+    display: none;
+    animation: fadeIn 0.5s;
+    transition: all 0.4s, background-color 0.5s, color 0.5s, box-shadow 0.5s;
+  }
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 0.25;
+    }
+  }
+  
+  @keyframes fadeOut {
+    0% {
+      opacity: 0.25;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+  
+         /* Style for the switch container */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+    float: right;
+    transition: all 0.4s, background-color 0.5s, color 0.5s, box-shadow 0.5s;
+}
+
+    /* Hide the default checkbox */
+    .switch input {
+      display: none;
+    }
+
+    /* Style for the slider */
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #b1b1b1;;
+      transition: 0.4s;
+      border-radius: 34px;
+      
+    transition: background-color 0.5s, color 0.5s, box-shadow 0.5s;
+    }
+
+    /* Style for the slider when checked */
+    .slider::before {
+    content: "";
+    position: absolute;
+    width: 43.33%;
+    height: 76.47%;
+    left: 6.67%;
+    bottom: 11.76%;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+    transition: background-color 0.5s, color 0.5s, box-shadow 0.5s, all 0.4s;
+    }
+
+    /* Style for the slider when the switch is checked */
+    input:checked + .slider {
+      background-color: #66bb6a;
+    }
+
+    /* Style for the slider's inner circle when the switch is checked */
+    input:checked + .slider::before {
+      transform: translateX(100%);
+      animation: none;
+    }
+  
+  .settingsopt {
+    width: 350px;
+    height: 50px;
+    border-bottom: 1px solid white;
+    display: flex;
+    justify-content: center;
+    transition: background-color 0.5s, color 0.5s, box-shadow 0.5s;
+  }
+  
+  #timeswitch {
+    margin-left: 57px;
+    transition: background-color 0.5s, color 0.5s, box-shadow 0.5s;
+  }
+  
+  #settingshead {
+    font-family: "Sans Sarif";
+    transition: background-color 0.5s, color 0.5s, box-shadow 0.5s;
+  }
+
+  #themechange {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 0;
+    transition: background-color 0.5s, color 0.5s, box-shadow 0.5s;
+  }
+  
+  #themebtn {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 80%;
+    height: 64%;
+    background-color: #1e8e72;
+    align-items: center;
+    border-radius: 100px;
+    box-shadow: 0px 0px 4px 0 black;
+    user-select: none;
+    transition: box-shadow 0.2s, translate 0.2s, scale 0.2s, background-color 0.5s, color 0.5s;
+  }
+  
+  #themebtn:hover {
+    box-shadow: 2px 2px 4px 0 black;
+  }
+    #themebtn:active {
+      box-shadow: 0px 0px 2px 0 black;
+      translate: 4px 4px;
+      scale: 0.95;
+  }
+  
+  path#settingsimg {
+    transition: fill 0.5s;
+}
+
+</style>
+</head>
+<body>
+  <div id="settingsclose"></div>
+  <div id="topbar">
+    <button id="settingsbtn">
+       <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
+           <path d="M0 0h48v48h-48z" fill="none"/>
+           <path d="M38.86 25.95c.08-.64.14-1.29.14-1.95s-.06-1.31-.14-1.95l4.23-3.31c.38-.3.49-.84.24-1.28l-4-6.93c-.25-.43-.77-.61-1.22-.43l-4.98 2.01c-1.03-.79-2.16-1.46-3.38-1.97l-.75-5.3c-.09-.47-.5-.84-1-.84h-8c-.5 0-.91.37-.99.84l-.75 5.3c-1.22.51-2.35 1.17-3.38 1.97l-4.98-2.01c-.45-.17-.97 0-1.22.43l-4 6.93c-.25.43-.14.97.24 1.28l4.22 3.31c-.08.64-.14 1.29-.14 1.95s.06 1.31.14 1.95l-4.22 3.31c-.38.3-.49.84-.24 1.28l4 6.93c.25.43.77.61 1.22.43l4.98-2.01c1.03.79 2.16 1.46 3.38 1.97l.75 5.3c.08.47.49.84.99.84h8c.5 0 .91-.37.99-.84l.75-5.3c1.22-.51 2.35-1.17 3.38-1.97l4.98 2.01c.45.17.97 0 1.22-.43l4-6.93c.25-.43.14-.97-.24-1.28l-4.22-3.31zm-14.86 5.05c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z" id="settingsimg" fill="black"/>
+       </svg>
+    </button>
+  </div>
+  <div class="container">
+
+<div class="analogclock">
+  <div class="hand hour-hand transition"></div>
+  <div class="hand minute-hand transition"></div>
+  <div class="hand second-hand transition"></div>
+  <div class="center-circle"></div>
+</div>
+  
+    <div id="clock"></div>
+  </div>
+<div class="settings">
+  <h2 id="settingshead">
+    Settings
+  </h2>
+  <div id="timeformat" class="settingsopt">
+  <label for="formatToggle">12-hour format:</label>
+      <label class="switch" id="timeswitch">
+     <input type="checkbox" id="formatToggle" onchange="updateFormat()" checked>
+     <span class="slider" id="wrapslider"></span>
+    </label>
+  </div>
+  <div id="themechange" class="settingsopt">
+    <div id="themebtn" style="padding: 5px">
+      <div id="sunicon">
+         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+             <path d="M5.9 5.1c0 .3.1.6.3.9l1.4 1.4.9-.8-2.2-2.2c-.3.1-.4.4-.4.7zm.5 5.3H3.2c0 .3.1.6.4.9.3.3.5.4.8.4h2v-1.3zm6.2-5V2.2c-.3 0-.6.1-.9.4-.3.3-.4.5-.4.8v2h1.3zM6.2 17.1c.3 0 .6-.1.8-.3l1.4-1.4-.8-.8-2.2 2.2c.2.2.5.3.8.3zM17.8 4.9c-.3 0-.6.1-.8.3l-1.4 1.4.8.9 2.2-2.3c-.2-.2-.5-.3-.8-.3zm-5.2 11.7h-1.2v3.2c.3 0 .6-.1.9-.4.3-.3.4-.5.4-.8l-.1-2zm7-6.2h-2v1.2h3.2c0-.3-.1-.6-.4-.9-.3-.3-.5-.3-.8-.3zM17.8 16l-1.4-1.4-.8.8 2.2 2.2c.2-.2.3-.5.3-.8 0-.3-.1-.6-.3-.8z" style="fill:#ffffff"/>
+             <circle cx="12" cy="11" r="4" transform="matrix(-1 0 0 1 24 0)" style="fill:#ffffff"/>
+         </svg>
+      </div>
+      <span id="themespan">Change Theme</span>
+      <div id="moonicon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+          <path d="M17.39 15.14A7.33 7.33 0 0 1 11.75 1.6c.23-.11.56-.23.79-.34a8.19 8.19 0 0 0-5.41.45 9 9 0 1 0 7 16.58 8.42 8.42 0 0 0 4.29-3.84 5.3 5.3 0 0 1-1.03.69z" style="fill:#ffffff"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+const secondHand = document.querySelector('.second-hand');
+const minsHand = document.querySelector('.minute-hand');
+const hourHand = document.querySelector('.hour-hand');
+  var center = document.querySelector(".center-circle")
+  var analogclock = document.querySelector(".analogclock")
+  var settingsbtn = document.querySelector("#settingsbtn");
+  var settings = document.querySelector(".settings");
+  var settingsclose = document.querySelector("#settingsclose");
+  var themebtn = document.querySelector("#themebtn");
+  var topbar = document.querySelector("#topbar");
+  var seticonsvg = document.querySelector("path#settingsimg")
+  // Check the defult device theme and set it as defult `theme`'s value
+  let theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+       // Styles for different themes
+        function applyTheme() {
+            if (theme === 'light') {
+              // Style light theme
+              document.body.style.backgroundColor = '#eaeaea';
+              document.body.style.color = 'black';
+              analogclock.style.backgroundColor = "white";
+              analogclock.style.borderColor = "#333";
+              hourHand.style.backgroundColor = "#333";
+              minsHand.style.backgroundColor = "#666";
+              center.style.backgroundColor = "#333";
+              topbar.style.backgroundColor = "lightgrey";
+              topbar.style.boxShadow = "0px 1px 5px 0 black";
+              seticonsvg.style.fill = "black";
+            } else {
+              // Style dark theme
+              document.body.style.backgroundColor = '#1e1e1efa';
+              document.body.style.color = 'white';
+              analogclock.style.backgroundColor = "black";
+              analogclock.style.borderColor = "#a7a7a7";
+              hourHand.style.backgroundColor = "#bebebe";
+              minsHand.style.backgroundColor = "#808080";
+              center.style.backgroundColor = "#bebebe";
+              topbar.style.backgroundColor = "#484848";
+              topbar.style.boxShadow = "0px 1px 5px 0 #e0e0e0";
+              seticonsvg.style.fill = "white";
+            }
+        }
+  // Toggle the `theme` value when theme button is clicked
+  themebtn.addEventListener('click', function() {
+            theme = theme === 'light' ? 'dark' : 'light';
+            applyTheme(); // Style the page depended on the current theme
+        });
+  
+  // Open the settings menu
+  settingsbtn.addEventListener("click", function() {
+    settings.style.display = "flex";
+    settingsclose.style.display = "block";
+    settings.style.animation = "flyIn 0.5s";
+    settingsclose.style.animation = "fadeIn 0.5s";
+    
+  });
+  // Clock the settings menu when clicking outside it
+  settingsclose.addEventListener("click", function() {
+    setTimeout(function() {  // Wait for the animations to finish
+      settings.style.display = "none";
+      settingsclose.style.display = "none";
+    }, 450);
+    settings.style.animation = "flyOut 0.5s";
+    settingsclose.style.animation = "fadeOut 0.5s";
+  })
+
+function setDate() {
+  const now = new Date(); // Get the date first
+
+  const seconds = now.getSeconds(); // Get the seconds
+  const secondsDegrees = ((seconds / 60) * 360); // Rotate the second hand
+  const mins = now.getMinutes(); // Get the minutes
+  const minsDegrees = ((mins / 60) * 360) + ((seconds / 60) * 6); // Rotate the minute hand
+  const hour = now.getHours(); // Get hours
+  const hourDegrees = ((hour / 12) * 360) + ((mins / 60) * 30); // Rotate the hour hand
+
+  // Remove transition when hand is about to reset to 0 degrees for preventing from rotating backwards to 0deg
+  if (seconds === 0) {
+    secondHand.classList.remove('transition');
+  } else if (seconds === 1) {
+    secondHand.classList.add('transition'); // Add transition again at 1 sec
+  }
+  secondHand.style.transform = `rotate(${secondsDegrees}deg)`;
+
+  if (mins === 0 && seconds === 0) {
+    minsHand.classList.remove('transition');
+  } else if (mins === 0 && seconds === 1) {
+    minsHand.classList.add('transition');
+  }
+  minsHand.style.transform = `rotate(${minsDegrees}deg)`;
+
+  if (hour === 12 && mins === 0 && seconds === 0) {
+    hourHand.classList.remove('transition');
+  } else if (hour === 0 && mins === 0 && seconds === 0) {
+    hourHand.classList.add('transition');
+  }
+  hourHand.style.transform = `rotate(${hourDegrees}deg)`;
+}
+
+setInterval(setDate, 1000); // Update every 1s
+setDate(); // Initial call to set the positions immediately
+  
+let is12HourFormat = false; 
+// The digital clock
+function updateClock() {
+  is12HourFormat = document.getElementById('formatToggle').checked; // Check if the 12 hour is checked
+  const now = new Date();
+  let hours = now.getHours();
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+  const seconds = String(now.getSeconds()).padStart(2, '0');
+  let amPm = '';
+
+  if (is12HourFormat) {
+    amPm = hours >= 12 ? ' PM' : ' AM';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+  }
+
+  hours = String(hours).padStart(2, '0');
+  document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds}${amPm}`;
+}
+
+function updateFormat() {
+  is12HourFormat = document.getElementById('formatToggle').checked;
+  updateClock();
+} 
+  let newSize;
+  function resizeClock() {
+    const analogClock = document.querySelector('.analogclock');
+
+    if (window.innerHeight - window.innerWidth > 0) {
+      newSize = 30;
+    } else if (window.innerHeight - window.innerWidth < 0) {
+      newSize = 50;
+    }
+      const scaleFactor = newSize / 50; // 50vh is the default size
+      
+      analogClock.style.width = `${newSize}vh`;
+      analogClock.style.height = `${newSize}vh`;
+      analogClock.style.borderWidth = `${2 * scaleFactor}vh`; // Adjusted border size
+      analogClock.style.boxShadow = `0 0 ${5 * scaleFactor}vh rgba(0,0,0,0.1)`; // Adjusted box shadow
+      analogClock.style.margin = `${11.2 * scaleFactor}vh auto`; // Adjusted margin
+      
+      // Adjust hand sizes
+      document.querySelector('.hour-hand').style.width = `${1.75 * scaleFactor}vh`;
+      document.querySelector('.hour-hand').style.height = `${12.5 * scaleFactor}vh`;
+      
+      document.querySelector('.minute-hand').style.width = `${1.25 * scaleFactor}vh`;
+      document.querySelector('.minute-hand').style.height = `${18.75 * scaleFactor}vh`;
+      
+      document.querySelector('.second-hand').style.width = `${0.75 * scaleFactor}vh`;
+      document.querySelector('.second-hand').style.height = `${23.75 * scaleFactor}vh`;
+      
+      document.querySelector('.center-circle').style.width = `${3 * scaleFactor}vh`;
+      document.querySelector('.center-circle').style.height = `${3 * scaleFactor}vh`;
+    
+  }
+
+  // Execute the function on page load
+  window.addEventListener('load', resizeClock);
+
+  // Execute the function on window resize
+  window.addEventListener('resize', resizeClock);
+
+setInterval(updateClock, 1000);
+updateClock(); // Initial call to display the time immediately
+          applyTheme();
+</script>
+</body>
+</html>
+</body>
+</html>
+      <p>Đang Thực Hiển Bởi Nguyễn Duy</p>
